@@ -170,7 +170,6 @@ class CriticalCloseUp extends Component {
     parser.fetch(input).then(doc => {
 
       if (doc !== null) {
-        console.log(doc.templates());
         for(let template of doc.templates()) {
           if (template.template === "video game reviews") {
             let metaCriticScore = template.data.mc;
@@ -226,14 +225,6 @@ class CriticalCloseUp extends Component {
           className="App-logo" alt="logo" />
         </header>
         <SearchBar performSearch={this.performSearch} />
-        {/* {this.state.subReddit && this.state.redditScript &&
-        <Script
-          url={this.state.redditScript}
-          attributes={this.state.subReddit}
-          onCreate={this.handleScriptCreate.bind(this)}
-          onError={this.handleScriptError.bind(this)}
-          onLoad={this.handleScriptLoad.bind(this)}
-        />} */}
 
         <RedditScript
            redditScript={this.state.redditScript}
