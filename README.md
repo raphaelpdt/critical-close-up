@@ -4,4 +4,4 @@ The app performs a curated search on video games and movies. Upon entry of a que
 
 ## Images
 
-![Initial State] (img/initial_state.PNG)
+![Initial_State](img/initial_state.PNG)
