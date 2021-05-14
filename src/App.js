@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import dogeLogo from "./doge-logo.png"
 import WikiSnippet from "./components/WikiSnippet.js";
 import 'semantic-ui-css/semantic.min.css';
 import SearchBar from "./components/SearchBar.js";
@@ -11,7 +12,7 @@ import RedditScript from './components/RedditScript';
 const parser = require('wtf_wikipedia');
 const searchYouTube = require('youtube-api-v3-search');
 
-const YOUTUBE_API_KEY = 'AIzaSyACLfTG-BOzYhwrZ_5BN529SrlmE392lSA';
+const YOUTUBE_API_KEY = 'AIzaSyCP1wBOuT4i1HRspEFL_YvN-rejMkQNz0I';
 const REDDIT_SCRIPT = 'https://redditjs.com/subreddit.js';
 
 class CriticalCloseUp extends Component {
@@ -79,7 +80,7 @@ class CriticalCloseUp extends Component {
     for (let i=targetElems.length; i>=0; i--) {
       if(targetElems[i] &&
         targetElems[i].getAttribute(targetAttr) !== null &&
-        targetElems[i].getAttribute(targetAttr) ===targetVal) {
+        targetElems[i].getAttribute(targetAttr) === targetVal) {
           targetElems[i].parentNode.removeChild(targetElems[i]);
       }
     }
@@ -221,7 +222,7 @@ class CriticalCloseUp extends Component {
       <div className="App">
         <header className="App-header">
           <img 
-            src="http://bf4-emblems.com/wp-content/uploads/2013/11/doge-dog.jpg" 
+            src={dogeLogo} 
           className="App-logo" alt="logo" />
         </header>
         <SearchBar performSearch={this.performSearch} />
