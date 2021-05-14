@@ -46,7 +46,8 @@ class CriticalCloseUp extends Component {
    * 
    * FUNCTIONS
    *  
-   */  
+   */
+  // Extracts search query from search bar and loads results  
   performSearch = async (e) => {
     e.preventDefault();
       let query = e.target.elements.query.value;
@@ -54,8 +55,8 @@ class CriticalCloseUp extends Component {
       if (query) {
 
         query = (this.titleCaseQuery(query));
-        await this.getWikiData(query);
-        await this.getScore(query);
+        await this.getWikiData(query); // load wikipedia data
+        //await this.getScore(query); // parse score
         await this.getYouTubeList(query);
       }
   }
@@ -86,25 +87,28 @@ class CriticalCloseUp extends Component {
     }
   }
 
+  // Create script object for appended subreddit
   addScript = (filename, series) => {
     let script = document.createElement("script");
+    let attributes = this.setSubReddit(series);
 
     script.setAttribute("type", "text/javascript");
     script.setAttribute("data-subreddit", series);
-    script.setAttribute('data-height', '800');
-    script.setAttribute('data-width', '1500');
-    script.setAttribute('data-theme', 'dark');
-    script.setAttribute('data-timeframe', 'month');
-    script.setAttribute('data-subreddit-mode', 'grid');
+    script.setAttribute('data-height', attributes["data-height"]);
+    script.setAttribute('data-width',  attributes["data-width"]);
+    script.setAttribute('data-theme', attributes["data-theme"]);
+    script.setAttribute('data-timeframe', attributes["data-timeframe"]);
+    script.setAttribute('data-subreddit-mode', attributes["data-subreddit-mode"]);
     script.setAttribute("src", filename);
 
+    // check if subreddit snippet is successfully loaded, append to the document if so
     if(typeof script !== undefined) {
       document.body.appendChild(script);
     }
   }
 
   setSubReddit = (input) => {
-    let attributes = {
+    var attributes = {
       'data-subreddit': input,
       'data-height': '800',
       'data-width': '1500',
@@ -122,7 +126,7 @@ class CriticalCloseUp extends Component {
         if (doc.infoboxes(0).keyValue().series !== undefined) {
           var series = this.removeWhiteSpace(doc.infoboxes(0).keyValue().series);
 
-          // Restart script if script is loaded
+          // Restart reddit script if script is loaded
           if (this.state.redditScript !== undefined && this.state.subReddit !== undefined) {
             this.removeElem(REDDIT_SCRIPT, "script");
             this.removeElem("width: 100%;", "div");
@@ -143,6 +147,8 @@ class CriticalCloseUp extends Component {
           writeUp: doc.paragraphs(0).text(),
           error: "",
         });
+
+        this.getScore(doc);
       } else if (doc === null) {
         this.setState({
           image: undefined,
@@ -167,10 +173,11 @@ class CriticalCloseUp extends Component {
     return reviewColor;
   }
 
-  getScore = (input) => {
-    parser.fetch(input).then(doc => {
+  // Parse score from wikipedia
+  getScore = (doc) => {
+    // parser.fetch(input).then(doc => {
 
-      if (doc !== null) {
+      //if (doc !== null) {
         for(let template of doc.templates()) {
           if (template.template === "video game reviews") {
             let metaCriticScore = template.data.mc;
@@ -189,8 +196,8 @@ class CriticalCloseUp extends Component {
             this.setState({ reviewScore: metaCriticScore, reviewColor: reviewColor, reviewError: undefined });
           }
         }
-      }
-    });
+      //}
+    // });
   }
 
   getYouTubeList = (input) => {
@@ -233,6 +240,7 @@ class CriticalCloseUp extends Component {
            scriptLoaded={this.state.scriptLoaded}
            scriptError={this.state.scriptError}
         />
+        
         
         <Grid columns={3}>
           <Grid.Row stretched>
